@@ -1,0 +1,4 @@
+# This file is read by makefile
+storagesize = 3
+region = us-east-1
+hostname = grafana-dev-alpha.exchangeweb.net

@@ -1,0 +1,5 @@
+# This file is read by makefile
+storagesize = 3
+
+# Use 7d to specify period of 7 days
+retentionPeriod = 7d

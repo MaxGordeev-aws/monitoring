@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: NAMESPACE
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      name: grafana
+      labels:
+        app: grafana
+    spec:
+      initContainers:
+      - name: grafana-data-permission-setup
+        image: busybox
+        command: ["/bin/chmod","-R","777", "/var/lib/grafana"]
+        volumeMounts:
+        - mountPath: /var/lib/grafana
+          name: grafana-storage
+      containers:
+      - name: grafana
+        image: grafana/grafana:latest
+        env:
+        - name: GF_SECURITY_ADMIN_USER
+          valueFrom:
+            secretKeyRef:
+              name: SERVICE_NAME-secret
+              key: admin-user
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: SERVICE_NAME-secret
+              key: admin-password
+        ports:
+        - name: grafana
+          containerPort: 3000
+        resources:
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+          requests: 
+            memory: 500M
+            cpu: "500m"
+        volumeMounts:
+          - mountPath: /var/lib/grafana
+            name: grafana-storage
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: grafana-datasources
+          # - mountPath: /etc/grafana/provisioning/dashboards/general
+          #   name: grafana-general-dashboards
+          # - mountPath: /etc/grafana/provisioning/dashboards/dashboard.yml
+          #   name: grafana-dashboards
+          #   subPath: dashboard.yml
+
+            readOnly: false
+      volumes:
+        - name: grafana-storage
+          persistentVolumeClaim:
+            claimName: grafana-pvc
+        - name: grafana-datasources
+          configMap:
+              defaultMode: 420
+              name: grafana-datasources
+        - configMap:
+            name: grafana-general-dashboards
+          name: grafana-general-dashboards
+        - configMap:
+           name: grafana-dashboards
+          name: grafana-dashboards
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: grafana
+  name: SERVICE_NAME
+  namespace: NAMESPACE
+spec:
+  type: LoadBalancer
+  ports:
+  - name: service
+    port: 80
+    protocol: TCP
+    targetPort: 3000
+    nodePort: 30602
+  selector:
+    app: grafana
+
+---
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: SERVICE_NAME-ingress
+#   namespace: NAMESPACE
+#   annotations:
+#     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+# spec:
+#   rules:
+#   - host: HOSTNAME
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service: 
+#             name: SERVICE_NAME
+#             port: 
+#               number: 80

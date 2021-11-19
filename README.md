@@ -159,6 +159,10 @@ https://api.slack.com/messaging/webhooks
 
 ### Tutorials and Git repos that was used as a resource:
 
+Ingress:
+
+https://kubernetes.github.io/ingress-nginx/deploy/ 
+
 Prometheus:
                
 https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/

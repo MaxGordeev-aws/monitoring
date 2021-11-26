@@ -17,7 +17,7 @@ then
 fi
 
 kmsKeyName="secretskey"
-export AWS_DEFAULT_REGION=us-east-1
+export AWS_DEFAULT_REGION=us-east-2
 #kmsKeyArn=$(aws kms describe-key --key-id alias/${kmsKeyName} --query 'KeyMetadata.Arn' --output text)
 secretSharingPolicy=$(cat <<EOF
 {

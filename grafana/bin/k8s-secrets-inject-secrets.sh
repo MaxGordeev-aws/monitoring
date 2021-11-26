@@ -9,7 +9,7 @@
 
 set -e
 
-export AWS_DEFAULT_REGION=us-east-1
+export AWS_DEFAULT_REGION=us-east-2
 service=$1
 namespace=$2
 secrets=$3

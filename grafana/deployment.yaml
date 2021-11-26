@@ -80,33 +80,33 @@ metadata:
   name: SERVICE_NAME
   namespace: NAMESPACE
 spec:
-  type: LoadBalancer
+  type: ClusterIP   #LoadBalancer
   ports:
   - name: service
     port: 80
     protocol: TCP
     targetPort: 3000
-    nodePort: 30602
+    # nodePort: 30602
   selector:
     app: grafana
 
 ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: SERVICE_NAME-ingress
-#   namespace: NAMESPACE
-#   annotations:
-#     nginx.ingress.kubernetes.io/ssl-redirect: "true"
-# spec:
-#   rules:
-#   - host: HOSTNAME
-#     http:
-#       paths:
-#       - path: /
-#         pathType: Prefix
-#         backend:
-#           service: 
-#             name: SERVICE_NAME
-#             port: 
-#               number: 80
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: SERVICE_NAME-ingress
+  namespace: NAMESPACE
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  rules:
+  - host: HOSTNAME
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: SERVICE_NAME
+            port: 
+              number: 80

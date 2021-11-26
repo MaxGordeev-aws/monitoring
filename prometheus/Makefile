@@ -1,12 +1,12 @@
 # Get the current cluster name
-cluster = Ubuntu-team-EKS
+cluster = max-eks
 #cluster = $(shell basename $(kubectl config current-context))
 
 # configutation
 version = 1.21
 namespace = monitoring
 include cluster/$(cluster)/config
-region = us-east-1
+region = us-east-2
 
 # do not change
 kubectl := kubectl -n $(namespace)

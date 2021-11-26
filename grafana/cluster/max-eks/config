@@ -1,0 +1,4 @@
+# This file is read by makefile
+storagesize = 3
+region = us-east-2
+hostname = grafana.test.com   #test one - need to modify

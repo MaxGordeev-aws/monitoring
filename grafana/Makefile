@@ -1,5 +1,5 @@
 # Get the current Main Cluster name
-cluster = Ubuntu-team-EKS
+cluster = max-eks
 #cluster = $(shell basename $(kubectl config current-context))
 namespace = monitoring
 

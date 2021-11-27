@@ -115,14 +115,12 @@ in my case I used slack.
 
     that is why in Makefile of Prometheus I have target for Alert Manager
 
-(Marsel added in demo: 
-
 - need to know differences between pull based and push based system
 - Custom metrics in Prometheus and Grafana -
 
 To configure custom metrics developers need to add in applications, and a pods need to expose this metrics in  a /metric endpoint, and we need to configure Prometheus - so it will need collect those custom metrics from pods and need to add dashboard to Grafana so it will show this custom metrics.
 
-Kube state metric and Node Exporter show standard metrics. In real environment developers want to see custom metrics - like how many people downloaded video, click the button, watch the advertisement.)
+Kube state metric and Node Exporter show standard metrics. In real environment developers want to see custom metrics - like how many people downloaded video, click the button, watch the advertisement.
 
 # Issues
 
